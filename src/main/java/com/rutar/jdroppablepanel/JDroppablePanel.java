@@ -70,33 +70,36 @@ public JDroppablePanel() {
 
 ///////////////////////////////////////////////////////////////////////////////
 
-private final DropTargetListener drop_target_listener
-        = new DropTargetAdapter() {
+private void initDefaultLineColor()
+    { setFirstLineColor (new Color(0x6666ff));
+      setSecondLineColor(new Color(0x6666ff)); }
 
-@Override
-public void drop (DropTargetDropEvent e) {
-    //Processing.drag_And_Drop_Files(e);
-    dragActive = false;
-    setBorder(passiveBorder);
+///////////////////////////////////////////////////////////////////////////////
+
+private void initDefaultLineStroke() {
+
+float[] dashing_pattern = { 10f, 10f, 1f, 10f };
+
+Stroke stroke = new BasicStroke(4f, BasicStroke.CAP_SQUARE,
+                                    BasicStroke.JOIN_MITER,
+                                    1.0f, dashing_pattern, 0.0f);
+
+setFirstLineStroke(stroke);
+setSecondLineStroke(stroke);
+
 }
 
-// ............................................................................
+///////////////////////////////////////////////////////////////////////////////
 
-@Override
-public void dragEnter (DropTargetDragEvent e) {
-    dragActive = true;
-    setBorder(activeBorder);
+private void initDefaultBorders() {
+
+    // Активна рамка
+    setActiveBorder(new LineBorder(getFirstLineColor(), 3));
+    
+    // Неактивна рамка
+    setPassiveBorder(new LineBorder(Color.GRAY, 3));
+
 }
-
-// ............................................................................
-
-@Override
-public void dragExit (DropTargetEvent e) {
-    dragActive = false;
-    setBorder(passiveBorder);
-}
-             
-};
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -139,63 +142,6 @@ g.setClip(old_clip);
 
 ///////////////////////////////////////////////////////////////////////////////
 
-private void initDefaultLineColor()
-    { setFirstLineColor (new Color(0x6666ff));
-      setSecondLineColor(new Color(0x6666ff)); }
-
-///////////////////////////////////////////////////////////////////////////////
-
-private void initDefaultLineStroke() {
-
-float[] dashing_pattern = { 10f, 10f, 1f, 10f };
-
-Stroke stroke = new BasicStroke(4f, BasicStroke.CAP_SQUARE,
-                                    BasicStroke.JOIN_MITER,
-                                    1.0f, dashing_pattern, 0.0f);
-
-setFirstLineStroke(stroke);
-setSecondLineStroke(stroke);
-
-}
-
-///////////////////////////////////////////////////////////////////////////////
-
-private void initDefaultBorders() {
-
-    // Активна рамка
-    setActiveBorder(new LineBorder(getFirstLineColor(), 3));
-    
-    // Неактивна рамка
-    setPassiveBorder(new LineBorder(Color.GRAY, 3));
-
-}
-
-///////////////////////////////////////////////////////////////////////////////
-
-public Color getFirstLineColor()  { return firstLineColor;  }
-public Color getSecondLineColor() { return secondLineColor; }
-
-public void setFirstLineColor  (Color color) { firstLineColor  = color; }
-public void setSecondLineColor (Color color) { secondLineColor = color; }
-
-///////////////////////////////////////////////////////////////////////////////
-
-public Stroke getFirstLineStroke()  { return firstLineStroke;  }
-public Stroke getSecondLineStroke() { return secondLineStroke; }
-
-public void setFirstLineStroke  (Stroke stroke) { firstLineStroke  = stroke; }
-public void setSecondLineStroke (Stroke stroke) { secondLineStroke = stroke; }
-
-///////////////////////////////////////////////////////////////////////////////
-
-public Border getActiveBorder()  { return activeBorder;  }
-public Border getPassiveBorder() { return passiveBorder; }
-
-public void setActiveBorder  (Border border) { activeBorder  = border; }
-public void setPassiveBorder (Border border) { passiveBorder = border; }
-
-///////////////////////////////////////////////////////////////////////////////
-
 public boolean isFirstLineDraw() { return firstLineDraw; }
 
 public void setFirstLineDraw (boolean draw)
@@ -216,6 +162,54 @@ public void setSecondLineDraw (boolean draw)
       fireEvent("secondLineDraw", oldValue, draw);
       getPropertyChangeSupport().firePropertyChange("secondLineDraw",
                                                     oldValue, draw);
+      repaint(); }
+
+///////////////////////////////////////////////////////////////////////////////
+
+public Color getFirstLineColor() { return firstLineColor;  }
+
+public void setFirstLineColor (Color color)
+    { Color oldValue = this.firstLineColor;
+      this.firstLineColor = color;
+      fireEvent("firstLineColor", oldValue, color);
+      getPropertyChangeSupport().firePropertyChange("firstLineColor",
+                                                    oldValue, color);
+      repaint(); }
+
+///////////////////////////////////////////////////////////////////////////////
+
+public Color getSecondLineColor() { return secondLineColor; }
+
+public void setSecondLineColor (Color color)
+    { Color oldValue = this.secondLineColor;
+      this.secondLineColor = color;
+      fireEvent("secondLineColor", oldValue, color);
+      getPropertyChangeSupport().firePropertyChange("secondLineColor",
+                                                    oldValue, color);
+      repaint(); }
+
+///////////////////////////////////////////////////////////////////////////////
+
+public Stroke getFirstLineStroke() { return firstLineStroke;  }
+
+public void setFirstLineStroke (Stroke stroke)
+    { Stroke oldValue = this.firstLineStroke;
+      this.firstLineStroke = stroke;
+      fireEvent("firstLineStroke", oldValue, stroke);
+      getPropertyChangeSupport().firePropertyChange("firstLineStroke",
+                                                    oldValue, stroke);
+      repaint(); }
+
+///////////////////////////////////////////////////////////////////////////////
+
+public Stroke getSecondLineStroke() { return secondLineStroke; }
+
+public void setSecondLineStroke (Stroke stroke)
+    { Stroke oldValue = this.secondLineStroke;
+      this.secondLineStroke = stroke;
+      fireEvent("secondLineStroke", oldValue, stroke);
+      getPropertyChangeSupport().firePropertyChange("secondLineStroke",
+                                                    oldValue, stroke);
       repaint(); }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -248,13 +242,59 @@ public void setLineIndent (int lineIndent)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-//@Override
-//public void setBackground (Color bg)
-//    { Color oldValue = getBackground();
-//      fireEvent("background", oldValue, bg);
-//      getPropertyChangeSupport().firePropertyChange("background",
-//                                                    oldValue, bg);
-//      super.setBackground(bg); }
+
+public Border getActiveBorder()  { return activeBorder;  }
+
+public void setActiveBorder (Border border)
+    { Border oldValue = this.activeBorder;
+      this.activeBorder = border;
+      fireEvent("activeBorder", oldValue, border);
+      getPropertyChangeSupport().firePropertyChange("activeBorder",
+                                                    oldValue, border);
+      repaint(); }
+
+///////////////////////////////////////////////////////////////////////////////
+
+public Border getPassiveBorder() { return passiveBorder; }
+
+public void setPassiveBorder (Border border)
+    { Border oldValue = this.passiveBorder;
+      this.passiveBorder = border;
+      fireEvent("passiveBorder", oldValue, border);
+      getPropertyChangeSupport().firePropertyChange("passiveBorder",
+                                                    oldValue, border);
+      repaint(); }
+
+///////////////////////////////////////////////////////////////////////////////
+
+
+private final DropTargetListener drop_target_listener
+        = new DropTargetAdapter() {
+
+@Override
+public void drop (DropTargetDropEvent e) {
+    //Processing.drag_And_Drop_Files(e);
+    dragActive = false;
+    setBorder(passiveBorder);
+}
+
+// ............................................................................
+
+@Override
+public void dragEnter (DropTargetDragEvent e) {
+    dragActive = true;
+    setBorder(activeBorder);
+}
+
+// ............................................................................
+
+@Override
+public void dragExit (DropTargetEvent e) {
+    dragActive = false;
+    setBorder(passiveBorder);
+}
+             
+};
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -302,11 +342,18 @@ JDroppablePanelEvent event = new JDroppablePanelEvent(this, oldValue, newValue);
 for (JDroppablePanelListener listener : getListeners()) {
 
     switch (type) {
-        case "smile"      -> listener.smileChange(event);
-        case "lineWidth"  -> listener.lineWidthChange(event);
-        case "mouthWidth" -> listener.mouthWidthChange(event);
-        case "background" -> listener.backgroundChange(event);
-        case "foreground" -> listener.foregroundChange(event);
+        
+        case "firstLineDraw"    -> listener.foregroundChange(event);
+        case "secondLineDraw"   -> listener.foregroundChange(event);
+        case "firstLineColor"   -> listener.foregroundChange(event);
+        case "secondLineColor"  -> listener.foregroundChange(event);
+        case "firstLineStroke"  -> listener.foregroundChange(event);
+        case "secondLineStroke" -> listener.foregroundChange(event);
+        case "lineStep"         -> listener.foregroundChange(event);
+        case "lineIndent"       -> listener.foregroundChange(event);
+        case "activeBorder"     -> listener.foregroundChange(event);
+        case "passiveBorder"    -> listener.foregroundChange(event);
+
     }
 }
 }
