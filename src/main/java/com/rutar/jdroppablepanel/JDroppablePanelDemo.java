@@ -50,7 +50,9 @@ setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 setTitle("JDroppablePanel Demo");
 setResizable(false);
 
-face.setLineWidth(5);
+//face.setLineWidth(5);
+//face.setFirstLineColor(Color.GREEN);
+//face.setSecondLineColor(Color.YELLOW);
 
 GroupLayout faceLayout = new GroupLayout(face);
 face.setLayout(faceLayout);
@@ -177,12 +179,12 @@ public void stateChanged (ChangeEvent evt) {
 
 private void jSliderStateCanged (ChangeEvent evt) {                                    
 
-if (evt.getSource() == slider_line_width)
-    { face.setLineWidth(slider_line_width.getValue());
-      slider_line_width.setToolTipText("Товщина ліній: " + slider_line_width.getValue()); }
-else
-    { face.setMouthWidth(slider_smile_width.getValue());
-      slider_smile_width.setToolTipText("Ширина усмішки: " + slider_smile_width.getValue() + "°"); }
+//if (evt.getSource() == slider_line_width)
+//    { face.setLineWidth(slider_line_width.getValue());
+//      slider_line_width.setToolTipText("Товщина ліній: " + slider_line_width.getValue()); }
+//else
+//    { face.setMouthWidth(slider_smile_width.getValue());
+//      slider_smile_width.setToolTipText("Ширина усмішки: " + slider_smile_width.getValue() + "°"); }
 
 }                                   
 
@@ -192,14 +194,14 @@ private void jButtonActionPerformed (ActionEvent evt) {
 
 switch (evt.getActionCommand()) {
 
-    // Усмішка/гримаса
-    case "smile/unsmile"    -> face.setSmile(!face.isSmile());
-    // Колір ліній
-    case "changeForeground" -> face.setForeground(getRandomColor());
-    // Колір фону
-    case "changeBackground" -> face.setBackground(getRandomColor());
-    // Відновити початкові налаштування
-    case "resetSettings"    -> resetSettings();
+//    // Усмішка/гримаса
+//    case "smile/unsmile"    -> face.setSmile(!face.isSmile());
+//    // Колір ліній
+//    case "changeForeground" -> face.setForeground(getRandomColor());
+//    // Колір фону
+//    case "changeBackground" -> face.setBackground(getRandomColor());
+//    // Відновити початкові налаштування
+//    case "resetSettings"    -> resetSettings();
 
 }
 }                                       
@@ -260,13 +262,13 @@ private void resetSettings() {
     if (defaultForeground == null) 
         { defaultForeground = face.getForeground(); }
     
-    face.setSmile(smile);
-    
-    face.setLineWidth(lineWidth);
-    slider_line_width.setValue(lineWidth);
-    
-    face.setMouthWidth(mothWidth);
-    slider_smile_width.setValue(mothWidth);
+//    face.setSmile(smile);
+//    
+//    face.setLineWidth(lineWidth);
+//    slider_line_width.setValue(lineWidth);
+//    
+//    face.setMouthWidth(mothWidth);
+//    slider_smile_width.setValue(mothWidth);
     
     face.setBackground(defaultBackground);
     face.setForeground(defaultForeground);

@@ -4,6 +4,8 @@ import java.awt.*;
 import java.util.*;
 import java.beans.*;
 import javax.swing.*;
+import java.awt.dnd.*;
+import javax.swing.border.*;
 
 // ............................................................................
 
@@ -15,121 +17,244 @@ import javax.swing.*;
 
 public class JDroppablePanel extends JPanel {
 
+private int W;                                                 // Ширина панелі
+private int H;                                                 // Висота панелі
+private int lineStep;                                             // Крок ліній
+private int lineIndent;                            // Відступ по краях елемента
+
+private Graphics2D g = null;
+
+// ............................................................................
+
+private boolean dragActive;           // Вказує чи активний режим перетягування
+
+private Border activeBorder;        // Рамка, коли режим перетягування активний
+private Border passiveBorder;     // Рамка, коли режим перетягування неактивний
+
+private boolean firstLineDraw;                // Вказує чи малювати I візерунок
+private Color   firstLineColor;                      // Колір ліній I візерунка
+private Stroke  firstLineStroke;                 // Штриховка ліній I візерунка
+
+private boolean secondLineDraw;              // Вказує чи малювати II візерунок
+private Color   secondLineColor;                    // Колір ліній II візерунка
+private Stroke  secondLineStroke;               // Штриховка ліній II візерунка
+
+// ............................................................................
+
+private final DropTarget drop_target;
+
 private static ArrayList <JDroppablePanelListener> listeners = null;
 private static transient PropertyChangeSupport propertyChangeSupport = null;
 
-private int lineWidth = 1;                                     // Товщина ліній
-private int mouthWidth = 120;                     // Ширина усмішки, в градусах
-private boolean smile = true;                                // Усмішка/гримаса
+///////////////////////////////////////////////////////////////////////////////
+
+public JDroppablePanel() {
+
+    super();
+
+    lineStep = 5;
+    lineIndent = 5;
+    
+    firstLineDraw = true;
+    secondLineDraw = true;
+    
+    initDefaultLineColor();
+    initDefaultLineStroke();
+    
+    initDefaultBorders();
+    setBorder(passiveBorder);
+    
+    drop_target = new DropTarget(this, drop_target_listener);
+    
+}
 
 ///////////////////////////////////////////////////////////////////////////////
-    
+
+private final DropTargetListener drop_target_listener
+        = new DropTargetAdapter() {
+
 @Override
-public void paint (Graphics g) {
+public void drop (DropTargetDropEvent e) {
+    //Processing.drag_And_Drop_Files(e);
+    dragActive = false;
+    setBorder(passiveBorder);
+}
 
-Graphics2D g2 = (Graphics2D)g;
-g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-                    RenderingHints.VALUE_ANTIALIAS_ON);
+// ............................................................................
 
-int w = getWidth();
-int h = getHeight();
+@Override
+public void dragEnter (DropTargetDragEvent e) {
+    dragActive = true;
+    setBorder(activeBorder);
+}
 
-int er = 4;
-int pad = 12;
+// ............................................................................
 
-int cw = w - pad * 2;
-int ch = h - pad * 2;
-int lw = (lineWidth - 1) / 2;
+@Override
+public void dragExit (DropTargetEvent e) {
+    dragActive = false;
+    setBorder(passiveBorder);
+}
+             
+};
 
-g2.setStroke(new BasicStroke(lineWidth));
+///////////////////////////////////////////////////////////////////////////////
 
-g2.setColor(getBackground());
-g2.fillRect(0, 0, w, h);
-g2.setColor(getForeground());
-g2.drawArc(pad, pad, cw, ch, 0, 360);
+@Override
+public void paint (Graphics graphics) {
 
-// Mouth
-int sw = cw / 2;
-int sh = ch / 2;
+super.paint(graphics);
+if (!dragActive) { return; }
 
-if (smile) { g2.drawArc(w / 2 - sw / 2,
-                        h / 2 - sh / 2,
-                        sw, sh, 270 - mouthWidth / 2, mouthWidth); }
+W = getWidth();
+H = getHeight();
+g = (Graphics2D) graphics;
 
-else       { g2.drawArc(w / 2 - sw / 2,
-                        h / 2 + sh / 3,
-                        sw, sh, 90 - mouthWidth / 2, mouthWidth); }
-    
-// Left eye
-g2.fillArc(w / 2 - cw * 1 / 8 - er / 2 - lw,
-           h / 2 - ch / 4 - er - lw,
-           er+lw*2, er+lw*2, 0, 360);
+Shape old_clip = g.getClip();
+g.setClip(lineIndent, lineIndent, W-lineIndent*2, H-lineIndent*2);
 
-// Right eye
-g2.fillArc(w / 2 + cw * 1 / 8 - er / 2 - lw,
-           h / 2 - ch / 4 - er - lw,
-           er+lw*2, er+lw*2, 0, 360);
+// ............................................................................
+
+g.setColor(getFirstLineColor());
+g.setStroke(getFirstLineStroke());
+
+if (firstLineDraw) {
+    for (int z = 0; z < H + W; z+=lineStep*2)
+        { g.drawLine(0, z*lineStep, z*lineStep, 0); }
+}
+
+g.setColor(getSecondLineColor());
+g.setStroke(getSecondLineStroke());
+
+if (secondLineDraw) {
+    for (int z = 0; z < H + W; z+=lineStep*2)
+        { g.drawLine(W, z*lineStep, W-z*lineStep, 0); }
+}
+
+// ............................................................................
+
+g.setClip(old_clip);
 
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 
-public boolean isSmile() { return smile; }
+private void initDefaultLineColor()
+    { setFirstLineColor (new Color(0x6666ff));
+      setSecondLineColor(new Color(0x6666ff)); }
 
-public void setSmile (boolean smile)
-    { boolean oldValue = this.smile;
-      this.smile = smile;
-      fireEvent("smile", oldValue, smile);
-      getPropertyChangeSupport().firePropertyChange("smile", oldValue, smile);
+///////////////////////////////////////////////////////////////////////////////
+
+private void initDefaultLineStroke() {
+
+float[] dashing_pattern = { 10f, 10f, 1f, 10f };
+
+Stroke stroke = new BasicStroke(4f, BasicStroke.CAP_SQUARE,
+                                    BasicStroke.JOIN_MITER,
+                                    1.0f, dashing_pattern, 0.0f);
+
+setFirstLineStroke(stroke);
+setSecondLineStroke(stroke);
+
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+private void initDefaultBorders() {
+
+    // Активна рамка
+    setActiveBorder(new LineBorder(getFirstLineColor(), 3));
+    
+    // Неактивна рамка
+    setPassiveBorder(new LineBorder(Color.GRAY, 3));
+
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+public Color getFirstLineColor()  { return firstLineColor;  }
+public Color getSecondLineColor() { return secondLineColor; }
+
+public void setFirstLineColor  (Color color) { firstLineColor  = color; }
+public void setSecondLineColor (Color color) { secondLineColor = color; }
+
+///////////////////////////////////////////////////////////////////////////////
+
+public Stroke getFirstLineStroke()  { return firstLineStroke;  }
+public Stroke getSecondLineStroke() { return secondLineStroke; }
+
+public void setFirstLineStroke  (Stroke stroke) { firstLineStroke  = stroke; }
+public void setSecondLineStroke (Stroke stroke) { secondLineStroke = stroke; }
+
+///////////////////////////////////////////////////////////////////////////////
+
+public Border getActiveBorder()  { return activeBorder;  }
+public Border getPassiveBorder() { return passiveBorder; }
+
+public void setActiveBorder  (Border border) { activeBorder  = border; }
+public void setPassiveBorder (Border border) { passiveBorder = border; }
+
+///////////////////////////////////////////////////////////////////////////////
+
+public boolean isFirstLineDraw() { return firstLineDraw; }
+
+public void setFirstLineDraw (boolean draw)
+    { boolean oldValue = this.firstLineDraw;
+      this.firstLineDraw = draw;
+      fireEvent("firstLineDraw", oldValue, draw);
+      getPropertyChangeSupport().firePropertyChange("firstLineDraw",
+                                                    oldValue, draw);
       repaint(); }
 
 ///////////////////////////////////////////////////////////////////////////////
 
-public int getLineWidth() { return lineWidth; }
+public boolean isSecondLineDraw() { return secondLineDraw; }
 
-public void setLineWidth (int lineWidth)
-    { if (lineWidth > 18) { lineWidth = 18; }
-      if (lineWidth <  1) { lineWidth = 1;  }
-      int oldValue = this.lineWidth;
-      this.lineWidth = lineWidth;
-      fireEvent("lineWidth", oldValue, lineWidth);
-      getPropertyChangeSupport().firePropertyChange("lineWidth",
-                                                    oldValue, lineWidth);
+public void setSecondLineDraw (boolean draw)
+    { boolean oldValue = this.secondLineDraw;
+      this.secondLineDraw = draw;
+      fireEvent("secondLineDraw", oldValue, draw);
+      getPropertyChangeSupport().firePropertyChange("secondLineDraw",
+                                                    oldValue, draw);
       repaint(); }
 
 ///////////////////////////////////////////////////////////////////////////////
 
-public int getMouthWidth() { return mouthWidth; }
+public int getLineStep() { return lineStep; }
 
-public void setMouthWidth (int mouthWidth)
-    { if (mouthWidth > 175) { mouthWidth = 175; }
-      if (mouthWidth <   0) { mouthWidth = 0;   }
-      int oldValue = this.mouthWidth;
-      this.mouthWidth = mouthWidth;
-      fireEvent("mouthWidth", oldValue, mouthWidth);
-      getPropertyChangeSupport().firePropertyChange("mouthWidth",
-                                                    oldValue, mouthWidth);
+public void setLineStep (int lineStep)
+    { if (lineStep > 7) { lineStep = 7; }
+      if (lineStep < 3) { lineStep = 3; }
+      int oldValue = this.lineStep;
+      this.lineStep = lineStep;
+      fireEvent("lineStep", oldValue, lineStep);
+      getPropertyChangeSupport().firePropertyChange("lineStep",
+                                                    oldValue, lineStep);
       repaint(); }
 
 ///////////////////////////////////////////////////////////////////////////////
 
-@Override
-public void setBackground (Color bg)
-    { Color oldValue = getBackground();
-      fireEvent("background", oldValue, bg);
-      getPropertyChangeSupport().firePropertyChange("background",
-                                                    oldValue, bg);
-      super.setBackground(bg); }
+public int getLineIndent() { return lineIndent; }
+
+public void setLineIndent (int lineIndent)
+    { if (lineIndent > 30) { lineIndent = 30; }
+      if (lineIndent < 0)  { lineIndent = 0;  }
+      int oldValue = this.lineIndent;
+      this.lineIndent = lineIndent;
+      fireEvent("lineIndent", oldValue, lineIndent);
+      getPropertyChangeSupport().firePropertyChange("lineIndent",
+                                                    oldValue, lineIndent);
+      repaint(); }
 
 ///////////////////////////////////////////////////////////////////////////////
 
-@Override
-public void setForeground (Color fg)
-    { Color oldValue = getForeground();
-      fireEvent("foreground", oldValue, fg);
-      getPropertyChangeSupport().firePropertyChange("foreground",
-                                                    oldValue, fg);
-      super.setForeground(fg); }
+//@Override
+//public void setBackground (Color bg)
+//    { Color oldValue = getBackground();
+//      fireEvent("background", oldValue, bg);
+//      getPropertyChangeSupport().firePropertyChange("background",
+//                                                    oldValue, bg);
+//      super.setBackground(bg); }
 
 ///////////////////////////////////////////////////////////////////////////////
 
