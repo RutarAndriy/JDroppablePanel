@@ -13,34 +13,64 @@ import java.util.*;
 public interface JDroppablePanelListener extends EventListener {
     
 /**
- * Зміна усмішки
+ * Зміна видимості I візерунку
  * @param evt Подія типу JDroppablePanelEvent
  */
-public void smileChange (JDroppablePanelEvent evt);
-    
-/**
- * Зміна ширини ліній
- * @param evt Подія типу JDroppablePanelEvent
- */
-public void lineWidthChange (JDroppablePanelEvent evt);
+public void firstLineDrawChange (JDroppablePanelEvent evt);
 
 /**
- * Зміна ширини усмішки (в градусах)
+ * Зміна видимості II візерунку
  * @param evt Подія типу JDroppablePanelEvent
  */
-public void mouthWidthChange (JDroppablePanelEvent evt);
+public void secondtLineDrawChange (JDroppablePanelEvent evt);
+            
+/**
+ * Зміна кольору I візерунку
+ * @param evt Подія типу JDroppablePanelEvent
+ */
+public void firstLineColorChange (JDroppablePanelEvent evt);
 
 /**
- * Зміна кольору фону
+ * Зміна кольору II візерунку
  * @param evt Подія типу JDroppablePanelEvent
  */
-public void backgroundChange (JDroppablePanelEvent evt);
+public void secondLineColorChange (JDroppablePanelEvent evt);
 
 /**
- * Зміна кольору ліній
+ * Зміна типу ліній I візерунку
  * @param evt Подія типу JDroppablePanelEvent
  */
-public void foregroundChange (JDroppablePanelEvent evt);
+public void firstLineStrokeChange (JDroppablePanelEvent evt);
+
+/**
+ * Зміна типу ліній II візерунку
+ * @param evt Подія типу JDroppablePanelEvent
+ */
+public void secondLineStrokeChange (JDroppablePanelEvent evt);
+
+/**
+ * Зміна активної рамки
+ * @param evt Подія типу JDroppablePanelEvent
+ */
+public void activeBorderChange (JDroppablePanelEvent evt);
+
+/**
+ * Зміна неактивної рамки
+ * @param evt Подія типу JDroppablePanelEvent
+ */
+public void passiveBorderChange (JDroppablePanelEvent evt);
+
+/**
+ * Зміна кроку ліній
+ * @param evt Подія типу JDroppablePanelEvent
+ */
+public void lineStepChange (JDroppablePanelEvent evt);
+
+/**
+ * Зміна відступу по краях елемента
+ * @param evt Подія типу JDroppablePanelEvent
+ */
+public void lineIndentChange (JDroppablePanelEvent evt);
 
 // Кінець класу JDroppablePanelListener ///////////////////////////////////////
 

@@ -13,19 +13,34 @@ public class JDroppablePanelAdapter implements JDroppablePanelListener {
 ///////////////////////////////////////////////////////////////////////////////
 
 @Override
-public void smileChange (JDroppablePanelEvent evt) {}
+public void firstLineDrawChange (JDroppablePanelEvent evt) { }
 
 @Override
-public void lineWidthChange (JDroppablePanelEvent evt) {}
+public void secondtLineDrawChange (JDroppablePanelEvent evt) { }
 
 @Override
-public void mouthWidthChange (JDroppablePanelEvent evt) {}
+public void firstLineColorChange (JDroppablePanelEvent evt) { }
 
 @Override
-public void backgroundChange (JDroppablePanelEvent evt) {}
+public void secondLineColorChange (JDroppablePanelEvent evt) { }
 
 @Override
-public void foregroundChange (JDroppablePanelEvent evt) {}
+public void firstLineStrokeChange (JDroppablePanelEvent evt) { }
+
+@Override
+public void secondLineStrokeChange (JDroppablePanelEvent evt) { }
+
+@Override
+public void activeBorderChange (JDroppablePanelEvent evt) { }
+
+@Override
+public void passiveBorderChange (JDroppablePanelEvent evt) { }
+
+@Override
+public void lineStepChange (JDroppablePanelEvent evt) { }
+
+@Override
+public void lineIndentChange (JDroppablePanelEvent evt) { }
 
 // Кінець класу JDroppablePanelAdapter ////////////////////////////////////////
 

@@ -214,6 +214,30 @@ public void setSecondLineStroke (Stroke stroke)
 
 ///////////////////////////////////////////////////////////////////////////////
 
+public Border getActiveBorder()  { return activeBorder;  }
+
+public void setActiveBorder (Border border)
+    { Border oldValue = this.activeBorder;
+      this.activeBorder = border;
+      fireEvent("activeBorder", oldValue, border);
+      getPropertyChangeSupport().firePropertyChange("activeBorder",
+                                                    oldValue, border);
+      repaint(); }
+
+///////////////////////////////////////////////////////////////////////////////
+
+public Border getPassiveBorder() { return passiveBorder; }
+
+public void setPassiveBorder (Border border)
+    { Border oldValue = this.passiveBorder;
+      this.passiveBorder = border;
+      fireEvent("passiveBorder", oldValue, border);
+      getPropertyChangeSupport().firePropertyChange("passiveBorder",
+                                                    oldValue, border);
+      repaint(); }
+
+///////////////////////////////////////////////////////////////////////////////
+
 public int getLineStep() { return lineStep; }
 
 public void setLineStep (int lineStep)
@@ -241,32 +265,6 @@ public void setLineIndent (int lineIndent)
       repaint(); }
 
 ///////////////////////////////////////////////////////////////////////////////
-
-
-public Border getActiveBorder()  { return activeBorder;  }
-
-public void setActiveBorder (Border border)
-    { Border oldValue = this.activeBorder;
-      this.activeBorder = border;
-      fireEvent("activeBorder", oldValue, border);
-      getPropertyChangeSupport().firePropertyChange("activeBorder",
-                                                    oldValue, border);
-      repaint(); }
-
-///////////////////////////////////////////////////////////////////////////////
-
-public Border getPassiveBorder() { return passiveBorder; }
-
-public void setPassiveBorder (Border border)
-    { Border oldValue = this.passiveBorder;
-      this.passiveBorder = border;
-      fireEvent("passiveBorder", oldValue, border);
-      getPropertyChangeSupport().firePropertyChange("passiveBorder",
-                                                    oldValue, border);
-      repaint(); }
-
-///////////////////////////////////////////////////////////////////////////////
-
 
 private final DropTargetListener drop_target_listener
         = new DropTargetAdapter() {
@@ -343,16 +341,16 @@ for (JDroppablePanelListener listener : getListeners()) {
 
     switch (type) {
         
-        case "firstLineDraw"    -> listener.foregroundChange(event);
-        case "secondLineDraw"   -> listener.foregroundChange(event);
-        case "firstLineColor"   -> listener.foregroundChange(event);
-        case "secondLineColor"  -> listener.foregroundChange(event);
-        case "firstLineStroke"  -> listener.foregroundChange(event);
-        case "secondLineStroke" -> listener.foregroundChange(event);
-        case "lineStep"         -> listener.foregroundChange(event);
-        case "lineIndent"       -> listener.foregroundChange(event);
-        case "activeBorder"     -> listener.foregroundChange(event);
-        case "passiveBorder"    -> listener.foregroundChange(event);
+        case "firstLineDraw"    -> listener.firstLineDrawChange    (event);
+        case "secondLineDraw"   -> listener.secondtLineDrawChange  (event);
+        case "firstLineColor"   -> listener.firstLineColorChange   (event);
+        case "secondLineColor"  -> listener.secondLineColorChange  (event);
+        case "firstLineStroke"  -> listener.firstLineStrokeChange  (event);
+        case "secondLineStroke" -> listener.secondLineStrokeChange (event);
+        case "activeBorder"     -> listener.activeBorderChange     (event);
+        case "passiveBorder"    -> listener.passiveBorderChange    (event);
+        case "lineStep"         -> listener.lineStepChange         (event);
+        case "lineIndent"       -> listener.lineIndentChange       (event);
 
     }
 }

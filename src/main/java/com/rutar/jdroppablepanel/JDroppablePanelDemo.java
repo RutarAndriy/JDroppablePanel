@@ -294,26 +294,46 @@ private void printComponentChange (String eventText, JDroppablePanelEvent evt) {
 ///////////////////////////////////////////////////////////////////////////////
 
 JDroppablePanelListener JDroppablePanelListener = new JDroppablePanelListener() {
-    
-    @Override
-    public void smileChange (JDroppablePanelEvent evt)
-        { printComponentChange("Smile", evt); }
 
     @Override
-    public void lineWidthChange (JDroppablePanelEvent evt)
-        { printComponentChange("Line width", evt); }
+    public void firstLineDrawChange(JDroppablePanelEvent evt)
+        { printComponentChange("firstLineDraw", evt); }
 
     @Override
-    public void mouthWidthChange (JDroppablePanelEvent evt)
-        { printComponentChange("Mouth width", evt); }
+    public void secondtLineDrawChange(JDroppablePanelEvent evt)
+        { printComponentChange("secondLineDraw", evt); }
 
     @Override
-    public void backgroundChange (JDroppablePanelEvent evt)
-        { printComponentChange("Background", evt); }
+    public void firstLineColorChange(JDroppablePanelEvent evt)
+        { printComponentChange("firstLineColor", evt); }
 
     @Override
-    public void foregroundChange (JDroppablePanelEvent evt)
-        { printComponentChange("Foreground", evt); }
+    public void secondLineColorChange(JDroppablePanelEvent evt)
+        { printComponentChange("secondLineColor", evt); }
+
+    @Override
+    public void firstLineStrokeChange(JDroppablePanelEvent evt)
+        { printComponentChange("firstLineStroke", evt); }
+
+    @Override
+    public void secondLineStrokeChange(JDroppablePanelEvent evt)
+        { printComponentChange("secondLineStroke", evt); }
+
+    @Override
+    public void activeBorderChange(JDroppablePanelEvent evt)
+        { printComponentChange("activeBorder", evt); }
+
+    @Override
+    public void passiveBorderChange(JDroppablePanelEvent evt)
+        { printComponentChange("passiveBorder", evt); }
+
+    @Override
+    public void lineStepChange(JDroppablePanelEvent evt)
+        { printComponentChange("lineStep", evt); }
+
+    @Override
+    public void lineIndentChange(JDroppablePanelEvent evt)
+        { printComponentChange("lineIndent", evt); }
 };
 
 // Кінець класу JDroppablePanelDemo ///////////////////////////////////////////
