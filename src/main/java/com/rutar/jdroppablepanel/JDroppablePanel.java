@@ -104,9 +104,9 @@ private void initDefaultBorders() {
 ///////////////////////////////////////////////////////////////////////////////
 
 @Override
-public void paint (Graphics graphics) {
+public void paintComponent (Graphics graphics) {
 
-super.paint(graphics);
+super.paintComponent(graphics);
 if (!dragActive) { return; }
 
 W = getWidth();
@@ -222,6 +222,7 @@ public void setActiveBorder (Border border)
       fireEvent("activeBorder", oldValue, border);
       getPropertyChangeSupport().firePropertyChange("activeBorder",
                                                     oldValue, border);
+      setBorder(dragActive ? activeBorder : passiveBorder);
       repaint(); }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -234,6 +235,7 @@ public void setPassiveBorder (Border border)
       fireEvent("passiveBorder", oldValue, border);
       getPropertyChangeSupport().firePropertyChange("passiveBorder",
                                                     oldValue, border);
+      setBorder(dragActive ? activeBorder : passiveBorder);
       repaint(); }
 
 ///////////////////////////////////////////////////////////////////////////////
