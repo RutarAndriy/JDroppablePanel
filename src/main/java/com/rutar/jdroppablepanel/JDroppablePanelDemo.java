@@ -25,6 +25,8 @@ super();
 initComponents();
 initAppIcons();
 
+droppable_panel.addJDroppablePanelListener(jdroppable_panel_listener);
+
 setLocationRelativeTo(null);
 
 }
@@ -64,7 +66,8 @@ setTitle("JDroppablePanel Demo");
 setResizable(false);
 
 label_drop.setHorizontalAlignment(SwingConstants.CENTER);
-label_drop.setText("<html><body style='text-align: center'>Спробуйте перетягнути сюди будь-які файли");
+label_drop.setText("<html><body style='text-align: center'>"
+                 + "Спробуйте перетягнути сюди будь-які файли");
 label_drop.setToolTipText("");
 label_drop.setHorizontalTextPosition(SwingConstants.LEADING);
 
@@ -402,7 +405,8 @@ private void printComponentChange (String eventText, JDroppablePanelEvent evt) {
 
 ///////////////////////////////////////////////////////////////////////////////
 
-JDroppablePanelListener JDroppablePanelListener = new JDroppablePanelListener() {
+private final JDroppablePanelListener jdroppable_panel_listener =
+          new JDroppablePanelListener() {
 
     @Override
     public void firstLineDrawChange(JDroppablePanelEvent evt)
