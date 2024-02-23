@@ -42,8 +42,9 @@ label_indent = new JLabel();
 slider_step = new JSlider();
 slider_indent = new JSlider();
 
-btn_fl_draw = new JToggleButton();
-btn_sl_draw = new JToggleButton();
+btn_fl_draw    = new JToggleButton();
+btn_sl_draw    = new JToggleButton();
+btn_set_dad = new JToggleButton();
 
 btn_fl_color = new JButton();
 btn_sl_color = new JButton();
@@ -112,6 +113,12 @@ btn_fl_draw.setToolTipText("Видимий");
 btn_fl_draw.setActionCommand("btn_fl_draw");
 btn_fl_draw.addActionListener(this::onButtonClick);
 panel_01.add(btn_fl_draw);
+
+btn_set_dad.setText("Панель активна");
+btn_set_dad.setToolTipText("Функція DaD активна");
+btn_set_dad.setActionCommand("btn_set_dad");
+btn_set_dad.addActionListener(this::onButtonClick);
+panel_01.add(btn_set_dad);
 
 btn_sl_draw.setText("II візерунок");
 btn_sl_draw.setToolTipText("Видимий");
@@ -227,7 +234,17 @@ case "btn_sl_draw"   ->
     { droppable_panel.setSecondLineDraw(!btn_sl_draw.isSelected());
       btn_sl_draw.setToolTipText(!btn_sl_draw.isSelected() ? "Видимий" :
                                                              "Невидимий"); }
-     
+
+case "btn_set_dad"   ->
+    { droppable_panel.setDaDActive(!btn_set_dad.isSelected());
+      btn_set_dad.setText("Панель " +
+                         (btn_set_dad.isSelected() ? "неактивна" :
+                                                     "активна"));
+      btn_set_dad.setToolTipText("Функція DaD " +
+                         (btn_set_dad.isSelected() ? "неактивна" :
+                                                     "активна"));
+      label_drop.setEnabled(!btn_set_dad.isSelected()); }
+
 case "btn_fl_color"  ->
     { Color color = getRandomColor();
       droppable_panel.setFirstLineColor(color);
@@ -378,6 +395,7 @@ private JSlider slider_indent;
 
 private JToggleButton btn_fl_draw;
 private JToggleButton btn_sl_draw;
+private JToggleButton btn_set_dad;
 
 private JButton btn_fl_color;
 private JButton btn_sl_color;
@@ -447,6 +465,10 @@ private final JDroppablePanelListener jdroppable_panel_listener =
     @Override
     public void lineIndentChange(JDroppablePanelEvent evt)
         { printComponentChange("lineIndent", evt); }
+
+    @Override
+    public void dragAndDropActiveChange(JDroppablePanelEvent evt)
+        { printComponentChange("dragAndDropActive", evt); }
 };
 
 // Кінець класу JDroppablePanelDemo ///////////////////////////////////////////

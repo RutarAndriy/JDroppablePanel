@@ -41,8 +41,9 @@ private Stroke  secondLineStroke;               // Штриховка ліній
 
 // ............................................................................
 
-private final DropTarget drop_target;
+private final DropTarget dropTarget;
 
+private static ArrayList <DropTargetListener> DaD_listeners = null;
 private static ArrayList <JDroppablePanelListener> listeners = null;
 private static transient PropertyChangeSupport propertyChangeSupport = null;
 
@@ -64,8 +65,8 @@ public JDroppablePanel() {
     initDefaultBorders();
     setBorder(passiveBorder);
     
-    drop_target = new DropTarget(this, drop_target_listener);
-    
+    dropTarget = new DropTarget(this, drop_target_listener);
+        
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -139,6 +140,17 @@ if (secondLineDraw) {
 g.setClip(old_clip);
 
 }
+
+///////////////////////////////////////////////////////////////////////////////
+
+public boolean isDaDActive() { return dropTarget.isActive(); }
+
+public void setDaDActive (boolean active)
+    { boolean oldValue = isDaDActive();
+      fireEvent("DaDActive", oldValue, active);
+      getPropertyChangeSupport().firePropertyChange("DaDActive",
+                                                    oldValue, active);
+      dropTarget.setActive(active); }
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -272,28 +284,40 @@ private final DropTargetListener drop_target_listener
         = new DropTargetAdapter() {
 
 @Override
-public void drop (DropTargetDropEvent e) {
-    //Processing.drag_And_Drop_Files(e);
-    dragActive = false;
-    setBorder(passiveBorder);
-}
-
-// ............................................................................
-
-@Override
 public void dragEnter (DropTargetDragEvent e) {
     dragActive = true;
     setBorder(activeBorder);
+    fireDaDEvent("dragEnter", e);
 }
-
-// ............................................................................
 
 @Override
 public void dragExit (DropTargetEvent e) {
     dragActive = false;
     setBorder(passiveBorder);
+    fireDaDEvent("dragExit", e);
 }
-             
+
+@Override
+public void dragOver (DropTargetDragEvent e) {
+    fireDaDEvent("dragOver", e);
+}
+
+// ............................................................................
+
+@Override
+public void drop (DropTargetDropEvent e) {
+    dragActive = false;
+    setBorder(passiveBorder);
+    fireDaDEvent("drop", e);
+}
+
+// ............................................................................
+
+@Override
+public void dropActionChanged (DropTargetDragEvent e) {
+    fireDaDEvent("dropActionChanged", e);
+}
+
 };
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -302,13 +326,13 @@ public void dragExit (DropTargetEvent e) {
 public void addPropertyChangeListener (PropertyChangeListener listener)
     { getPropertyChangeSupport().addPropertyChangeListener(listener); }
 
-///////////////////////////////////////////////////////////////////////////////
+// ............................................................................
 
 @Override
 public void removePropertyChangeListener (PropertyChangeListener listener)
     { getPropertyChangeSupport().removePropertyChangeListener(listener); }
 
-///////////////////////////////////////////////////////////////////////////////
+// ............................................................................
 
 private PropertyChangeSupport getPropertyChangeSupport() {
     if (propertyChangeSupport == null) {
@@ -320,18 +344,44 @@ private PropertyChangeSupport getPropertyChangeSupport() {
 ///////////////////////////////////////////////////////////////////////////////
 
 public void addJDroppablePanelListener (JDroppablePanelListener listener)
-    { getListeners().add(listener); }
+    { getListenersArrayList().add(listener); }
 
-///////////////////////////////////////////////////////////////////////////////
+// ............................................................................
 
 public void removeJDroppablePanelListener (JDroppablePanelListener listener)
-    { getListeners().remove(listener); }
+    { getListenersArrayList().remove(listener); }
+
+// ............................................................................
+
+public JDroppablePanelListener[] getJDroppablePanelListeners()
+    { return getListenersArrayList().toArray(JDroppablePanelListener[]::new); }
+
+// ............................................................................
+
+private ArrayList <JDroppablePanelListener> getListenersArrayList()
+    { if (listeners == null) { listeners = new ArrayList<>(); }
+      return listeners; }
 
 ///////////////////////////////////////////////////////////////////////////////
 
-private ArrayList <JDroppablePanelListener> getListeners()
-    { if (listeners == null) { listeners = new ArrayList<>(); }
-      return listeners; }
+public void addDropTargetListener (DropTargetListener listener)
+    { getDaDListenersArrayList().add(listener); }
+
+// ............................................................................
+
+public void removeDropTargetListener (DropTargetListener listener)
+    { getDaDListenersArrayList().remove(listener); }
+
+// ............................................................................
+
+public DropTargetListener[] getDaDListeners()
+    { return getDaDListenersArrayList().toArray(DropTargetListener[]::new); }
+
+// ............................................................................
+
+private ArrayList <DropTargetListener> getDaDListenersArrayList()
+    { if (DaD_listeners == null) { DaD_listeners = new ArrayList<>(); }
+      return DaD_listeners; }
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -339,23 +389,53 @@ private void fireEvent (String type, Object oldValue, Object newValue) {
 
 JDroppablePanelEvent event = new JDroppablePanelEvent(this, oldValue, newValue);
 
-for (JDroppablePanelListener listener : getListeners()) {
+for (JDroppablePanelListener listener : getListenersArrayList()) {
 
     switch (type) {
         
-        case "firstLineDraw"    -> listener.firstLineDrawChange    (event);
-        case "secondLineDraw"   -> listener.secondtLineDrawChange  (event);
-        case "firstLineColor"   -> listener.firstLineColorChange   (event);
-        case "secondLineColor"  -> listener.secondLineColorChange  (event);
-        case "firstLineStroke"  -> listener.firstLineStrokeChange  (event);
-        case "secondLineStroke" -> listener.secondLineStrokeChange (event);
-        case "activeBorder"     -> listener.activeBorderChange     (event);
-        case "passiveBorder"    -> listener.passiveBorderChange    (event);
-        case "lineStep"         -> listener.lineStepChange         (event);
-        case "lineIndent"       -> listener.lineIndentChange       (event);
+        case "DaDActive"        -> listener.dragAndDropActiveChange (event);
+        case "firstLineDraw"    -> listener.firstLineDrawChange     (event);
+        case "secondLineDraw"   -> listener.secondtLineDrawChange   (event);
+        case "firstLineColor"   -> listener.firstLineColorChange    (event);
+        case "secondLineColor"  -> listener.secondLineColorChange   (event);
+        case "firstLineStroke"  -> listener.firstLineStrokeChange   (event);
+        case "secondLineStroke" -> listener.secondLineStrokeChange  (event);
+        case "activeBorder"     -> listener.activeBorderChange      (event);
+        case "passiveBorder"    -> listener.passiveBorderChange     (event);
+        case "lineStep"         -> listener.lineStepChange          (event);
+        case "lineIndent"       -> listener.lineIndentChange        (event);
 
     }
 }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+private void fireDaDEvent (String type, Object event) {
+
+for (DropTargetListener listener : getDaDListenersArrayList()) {
+    
+    switch (type) {
+        
+        // Вхід у межі прослуховуваного об'єкта
+        case "dragEnter"         ->
+            listener.dragEnter((DropTargetDragEvent) event);
+        // Вихід за межі прослуховуваного об'єкта
+        case "dragExit"          ->
+            listener.dragExit((DropTargetEvent) event);
+        // Переміщення над межею прослуховуваного об'єкта
+        case "dragOver"          ->
+            listener.dragOver((DropTargetDragEvent) event);
+        // Завершення drop-події
+        case "drop"              ->
+            listener.drop((DropTargetDropEvent) event);
+        // Зміна стану drop-події
+        case "dropActionChanged" ->
+            listener.dropActionChanged((DropTargetDragEvent) event);
+ 
+    } 
+}
+
 }
 
 // Кінець класу JDroppablePanel ///////////////////////////////////////////////

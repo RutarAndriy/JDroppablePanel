@@ -11,7 +11,13 @@ import java.util.*;
  */
 
 public interface JDroppablePanelListener extends EventListener {
-    
+
+/**
+ * Зміна доступності моніторингу DaD-події
+ * @param evt Подія типу JDroppablePanelEvent
+ */ 
+public void dragAndDropActiveChange (JDroppablePanelEvent evt);
+
 /**
  * Зміна видимості I візерунку
  * @param evt Подія типу JDroppablePanelEvent
