@@ -1,2 +1,3 @@
 # JDroppablePanel
-JDroppablePanel
+
+`com.rutar.jdroppablepanel.JDroppablePanel`
