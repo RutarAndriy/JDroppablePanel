@@ -16,7 +16,7 @@ public interface JDroppablePanelListener extends EventListener {
  * Зміна доступності моніторингу DaD-події
  * @param evt Подія типу JDroppablePanelEvent
  */ 
-public void dragAndDropActiveChange (JDroppablePanelEvent evt);
+public void activeChange (JDroppablePanelEvent evt);
 
 /**
  * Зміна видимості I візерунку

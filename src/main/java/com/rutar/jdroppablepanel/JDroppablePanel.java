@@ -65,7 +65,7 @@ public JDroppablePanel() {
     initDefaultBorders();
     setBorder(passiveBorder);
     
-    dropTarget = new DropTarget(this, drop_target_listener);
+    dropTarget = new DropTarget(this, dropTargetListener);
         
 }
 
@@ -280,7 +280,7 @@ public void setLineIndent (int lineIndent)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-private final DropTargetListener drop_target_listener
+private final DropTargetListener dropTargetListener
         = new DropTargetAdapter() {
 
 @Override
@@ -310,14 +310,6 @@ public void drop (DropTargetDropEvent e) {
     setBorder(passiveBorder);
     fireDaDEvent("drop", e);
 }
-
-// ............................................................................
-
-@Override
-public void dropActionChanged (DropTargetDragEvent e) {
-    fireDaDEvent("dropActionChanged", e);
-}
-
 };
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -393,7 +385,7 @@ for (JDroppablePanelListener listener : getListenersArrayList()) {
 
     switch (type) {
         
-        case "DaDActive"        -> listener.dragAndDropActiveChange (event);
+        case "DaDActive"        -> listener.activeChange            (event);
         case "firstLineDraw"    -> listener.firstLineDrawChange     (event);
         case "secondLineDraw"   -> listener.secondtLineDrawChange   (event);
         case "firstLineColor"   -> listener.firstLineColorChange    (event);
@@ -429,13 +421,9 @@ for (DropTargetListener listener : getDaDListenersArrayList()) {
         // Завершення drop-події
         case "drop"              ->
             listener.drop((DropTargetDropEvent) event);
-        // Зміна стану drop-події
-        case "dropActionChanged" ->
-            listener.dropActionChanged((DropTargetDragEvent) event);
- 
+            
     } 
 }
-
 }
 
 // Кінець класу JDroppablePanel ///////////////////////////////////////////////

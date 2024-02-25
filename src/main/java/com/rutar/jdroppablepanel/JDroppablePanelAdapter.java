@@ -13,7 +13,7 @@ public class JDroppablePanelAdapter implements JDroppablePanelListener {
 ///////////////////////////////////////////////////////////////////////////////
 
 @Override
-public void dragAndDropActiveChange (JDroppablePanelEvent evt) { }
+public void activeChange (JDroppablePanelEvent evt) { }
 
 @Override
 public void firstLineDrawChange (JDroppablePanelEvent evt) { }

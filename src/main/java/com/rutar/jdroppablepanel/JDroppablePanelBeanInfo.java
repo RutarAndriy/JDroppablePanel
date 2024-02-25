@@ -4,6 +4,7 @@ import java.io.*;
 import java.awt.*;
 import java.util.*;
 import java.beans.*;
+import java.awt.dnd.*;
 import javax.imageio.*;
 
 import static java.beans.BeanInfo.*;
@@ -32,33 +33,69 @@ ArrayList <PropertyDescriptor> properties = new ArrayList<>();
 
 try {
 
-// Background
-property = new PropertyDescriptor("background", JDroppablePanel.class,
-                                  "getBackground", "setBackground");
-property.setPreferred(false);
-properties.add(property);
-
-// Foreground
-property = new PropertyDescriptor("foreground", JDroppablePanel.class,
-                                  "getForeground", "setForeground");
-property.setPreferred(false);
-properties.add(property);
-
-// LineWidth
-property = new PropertyDescriptor("lineWidth", JDroppablePanel.class,
-                                  "getLineWidth", "setLineWidth");
+// DaDActive
+property = new PropertyDescriptor("active", JDroppablePanel.class,
+                                  "isDaDActive", "setDaDActive");
 property.setPreferred(true);
 properties.add(property);
 
-// MouthWidth
-property = new PropertyDescriptor("mouthWidth", JDroppablePanel.class,
-                                  "getMouthWidth", "setMouthWidth");
+// FirstLineDraw
+property = new PropertyDescriptor("firstLineDraw", JDroppablePanel.class,
+                                  "isFirstLineDraw", "setFirstLineDraw");
 property.setPreferred(true);
 properties.add(property);
 
-// Smile
-property = new PropertyDescriptor("smile", JDroppablePanel.class,
-                                  "isSmile", "setSmile");
+// SecondLineDraw
+property = new PropertyDescriptor("secondLineDraw", JDroppablePanel.class,
+                                  "isSecondLineDraw", "setSecondLineDraw");
+property.setPreferred(true);
+properties.add(property);
+
+// FirstLineColor
+property = new PropertyDescriptor("firstLineColor", JDroppablePanel.class,
+                                  "getFirstLineColor", "setFirstLineColor");
+property.setPreferred(true);
+properties.add(property);
+
+// SecondLineColor
+property = new PropertyDescriptor("secondLineColor", JDroppablePanel.class,
+                                  "getSecondLineColor", "setSecondLineColor");
+property.setPreferred(true);
+properties.add(property);
+
+// FirstLineStroke
+property = new PropertyDescriptor("firstLineStroke", JDroppablePanel.class,
+                                  "getFirstLineStroke", "setFirstLineStroke");
+property.setPreferred(true);
+properties.add(property);
+
+// SecondLineStroke
+property = new PropertyDescriptor("secondLineStroke", JDroppablePanel.class,
+                                  "getSecondLineStroke", "setSecondLineStroke");
+property.setPreferred(true);
+properties.add(property);
+
+// ActiveBorder
+property = new PropertyDescriptor("activeBorder", JDroppablePanel.class,
+                                  "getActiveBorder", "setActiveBorder");
+property.setPreferred(true);
+properties.add(property);
+
+// PassiveBorder
+property = new PropertyDescriptor("passiveBorder", JDroppablePanel.class,
+                                  "getPassiveBorder", "setPassiveBorder");
+property.setPreferred(true);
+properties.add(property);
+
+// LineStep
+property = new PropertyDescriptor("lineStep", JDroppablePanel.class,
+                                  "getLineStep", "setLineStep");
+property.setPreferred(true);
+properties.add(property);
+
+// LineIndent
+property = new PropertyDescriptor("lineIndent", JDroppablePanel.class,
+                                  "getLineIndent", "setLineIndent");
 property.setPreferred(true);
 properties.add(property);
 
@@ -66,7 +103,7 @@ properties.add(property);
 
 catch (IntrospectionException e) { }
 
-return properties.toArray(new PropertyDescriptor[] {});
+return properties.toArray(PropertyDescriptor[]::new);
 
 }
 
@@ -88,17 +125,39 @@ try {
 // ............................................................................
 // JDroppablePanelListener
 
-methods = new String[] { "smileChange",
-                         "lineWidthChange",
-                         "mouseWidthChange",
-                         "backgroundChange",
-                         "foregroundChange" };
+methods = new String[] { "activeChange",
+                         "firstLineDrawChange",
+                         "secondtLineDrawChange",
+                         "firstLineColorChange",
+                         "secondLineColorChange",
+                         "firstLineStrokeChange",
+                         "secondLineStrokeChange",
+                         "activeBorderChange",
+                         "passiveBorderChange",
+                         "lineStepChange",
+                         "lineIndentChange" };
 
 eventSet = new EventSetDescriptor(JDroppablePanel.class,
                                   "JDroppablePanelListener",
-                                  JDroppablePanelListener.class, methods,
+                                  JDroppablePanelAdapter.class, methods,
                                   "addJDroppablePanelListener",
                                   "removeJDroppablePanelListener");
+
+descriptors.add(eventSet);
+
+// ............................................................................
+// DropTargetListener
+
+methods = new String[] { "dragEnter",
+                         "dragExit",
+                         "dragOver",
+                         "drop" };
+
+eventSet = new EventSetDescriptor(JDroppablePanel.class,
+                                  "DropTargetListener",
+                                  DropTargetAdapter.class, methods,
+                                  "addDropTargetListener",
+                                  "removeDropTargetListener");
 
 descriptors.add(eventSet);
 
@@ -119,7 +178,7 @@ descriptors.add(eventSet);
 
 catch (IntrospectionException e) { }
 
-return descriptors.toArray(new EventSetDescriptor[] {});
+return descriptors.toArray(EventSetDescriptor[]::new);
 
 }
 

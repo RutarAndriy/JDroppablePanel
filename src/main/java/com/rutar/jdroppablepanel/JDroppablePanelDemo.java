@@ -427,6 +427,10 @@ private final JDroppablePanelListener jdroppable_panel_listener =
           new JDroppablePanelListener() {
 
     @Override
+    public void activeChange(JDroppablePanelEvent evt)
+        { printComponentChange("DaDActive", evt); }
+    
+    @Override
     public void firstLineDrawChange(JDroppablePanelEvent evt)
         { printComponentChange("firstLineDraw", evt); }
 
@@ -466,9 +470,6 @@ private final JDroppablePanelListener jdroppable_panel_listener =
     public void lineIndentChange(JDroppablePanelEvent evt)
         { printComponentChange("lineIndent", evt); }
 
-    @Override
-    public void dragAndDropActiveChange(JDroppablePanelEvent evt)
-        { printComponentChange("dragAndDropActive", evt); }
 };
 
 // Кінець класу JDroppablePanelDemo ///////////////////////////////////////////
