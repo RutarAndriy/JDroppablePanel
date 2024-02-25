@@ -104,6 +104,10 @@ private void initDefaultBorders() {
 
 ///////////////////////////////////////////////////////////////////////////////
 
+/**
+ * Метод промальовує JDroppablePanel-компонент
+ * @param graphics об'єкт типу Graphics
+ */
 @Override
 public void paintComponent (Graphics graphics) {
 
@@ -143,8 +147,16 @@ g.setClip(old_clip);
 
 ///////////////////////////////////////////////////////////////////////////////
 
+/**
+ * Метод дозволяє визначити чи активна функція DaD
+ * @return якщо true - функція DaD активна
+ */
 public boolean isDaDActive() { return dropTarget.isActive(); }
 
+/**
+ * Метод активує/деактивує функцію DaD 
+ * @param active якщо true - активувати функцію DaD
+ */
 public void setDaDActive (boolean active)
     { boolean oldValue = isDaDActive();
       fireEvent("DaDActive", oldValue, active);
@@ -154,8 +166,16 @@ public void setDaDActive (boolean active)
 
 ///////////////////////////////////////////////////////////////////////////////
 
+/**
+ * Метод дозволяє визначити чи відображається візерунок I типу
+ * @return якщо true - візерунок відображається
+ */
 public boolean isFirstLineDraw() { return firstLineDraw; }
 
+/**
+ * Метод активує/деактивує відображення візерунку I типу
+ * @param draw якщо true - відображати візерунок
+ */
 public void setFirstLineDraw (boolean draw)
     { boolean oldValue = this.firstLineDraw;
       this.firstLineDraw = draw;
@@ -166,8 +186,16 @@ public void setFirstLineDraw (boolean draw)
 
 ///////////////////////////////////////////////////////////////////////////////
 
+/**
+ * Метод дозволяє визначити чи відображається візерунок II типу
+ * @return якщо true - візерунок відображається
+ */
 public boolean isSecondLineDraw() { return secondLineDraw; }
 
+/**
+ * Метод активує/деактивує відображення візерунку II типу
+ * @param draw якщо true - відображати візерунок
+ */
 public void setSecondLineDraw (boolean draw)
     { boolean oldValue = this.secondLineDraw;
       this.secondLineDraw = draw;
@@ -178,8 +206,16 @@ public void setSecondLineDraw (boolean draw)
 
 ///////////////////////////////////////////////////////////////////////////////
 
+/**
+ * Метод дозволяє отримати колір візерунку I типу
+ * @return об'єкт класу Color
+ */
 public Color getFirstLineColor() { return firstLineColor;  }
 
+/**
+ * Метод дозволяє задати колір візерунку I типу
+ * @param color об'єкт класу Color
+ */
 public void setFirstLineColor (Color color)
     { Color oldValue = this.firstLineColor;
       this.firstLineColor = color;
@@ -190,8 +226,16 @@ public void setFirstLineColor (Color color)
 
 ///////////////////////////////////////////////////////////////////////////////
 
+/**
+ * Метод дозволяє отримати колір візерунку II типу
+ * @return об'єкт класу Color
+ */
 public Color getSecondLineColor() { return secondLineColor; }
 
+/**
+ * Метод дозволяє задати колір візерунку II типу
+ * @param color об'єкт класу Color
+ */
 public void setSecondLineColor (Color color)
     { Color oldValue = this.secondLineColor;
       this.secondLineColor = color;
@@ -202,8 +246,16 @@ public void setSecondLineColor (Color color)
 
 ///////////////////////////////////////////////////////////////////////////////
 
+/**
+ * Метод дозволяє отримати штрихування візерунку I типу
+ * @return об'єкт класу Stroke
+ */
 public Stroke getFirstLineStroke() { return firstLineStroke;  }
 
+/**
+ * Метод дозволяє задати штрихування візерунку I типу
+ * @param stroke об'єкт класу Stroke
+ */
 public void setFirstLineStroke (Stroke stroke)
     { Stroke oldValue = this.firstLineStroke;
       this.firstLineStroke = stroke;
@@ -214,8 +266,16 @@ public void setFirstLineStroke (Stroke stroke)
 
 ///////////////////////////////////////////////////////////////////////////////
 
+/**
+ * Метод дозволяє отримати штрихування візерунку II типу
+ * @return об'єкт класу Stroke
+ */
 public Stroke getSecondLineStroke() { return secondLineStroke; }
 
+/**
+ * Метод дозволяє задати штрихування візерунку II типу
+ * @param stroke об'єкт класу Stroke
+ */
 public void setSecondLineStroke (Stroke stroke)
     { Stroke oldValue = this.secondLineStroke;
       this.secondLineStroke = stroke;
@@ -226,8 +286,16 @@ public void setSecondLineStroke (Stroke stroke)
 
 ///////////////////////////////////////////////////////////////////////////////
 
+/**
+ * Метод дозволяє отримати рамку, коли функція DaD активна
+ * @return об'єкт класу Border
+ */
 public Border getActiveBorder()  { return activeBorder;  }
 
+/**
+ * Метод дозволяє задати рамку, яка відображається коли функція DaD активна
+ * @param border об'єкт класу Border
+ */
 public void setActiveBorder (Border border)
     { Border oldValue = this.activeBorder;
       this.activeBorder = border;
@@ -239,8 +307,16 @@ public void setActiveBorder (Border border)
 
 ///////////////////////////////////////////////////////////////////////////////
 
+/**
+ * Метод дозволяє отримати рамку, коли функція DaD неактивна
+ * @return об'єкт класу Border
+ */
 public Border getPassiveBorder() { return passiveBorder; }
 
+/**
+ * Метод дозволяє задати рамку, яка відображається коли функція DaD неактивна
+ * @param border об'єкт класу Border
+ */
 public void setPassiveBorder (Border border)
     { Border oldValue = this.passiveBorder;
       this.passiveBorder = border;
@@ -252,8 +328,16 @@ public void setPassiveBorder (Border border)
 
 ///////////////////////////////////////////////////////////////////////////////
 
+/**
+ * Метод дозволяє отримати крок промальовування ліній
+ * @return значення кроку промальовування ліній
+ */
 public int getLineStep() { return lineStep; }
 
+/**
+ * Метод дозволяє задати крок промальовування ліній
+ * @param lineStep значення кроку промальовування ліній
+ */
 public void setLineStep (int lineStep)
     { if (lineStep > 7) { lineStep = 7; }
       if (lineStep < 3) { lineStep = 3; }
@@ -266,8 +350,16 @@ public void setLineStep (int lineStep)
 
 ///////////////////////////////////////////////////////////////////////////////
 
+/**
+ * Метод дозволяє отримати відступ промальовування ліній
+ * @return значення відступу промальовування ліній
+ */
 public int getLineIndent() { return lineIndent; }
 
+/**
+ * Метод дозволяє задати відступ промальовування ліній
+ * @param lineIndent значення відступу промальовування ліній
+ */
 public void setLineIndent (int lineIndent)
     { if (lineIndent > 30) { lineIndent = 30; }
       if (lineIndent < 0)  { lineIndent = 0;  }
@@ -314,12 +406,20 @@ public void drop (DropTargetDropEvent e) {
 
 ///////////////////////////////////////////////////////////////////////////////
 
+/**
+ * Метод додає прослуховувач подій типу PropertyChangeListener
+ * @param listener об'єкт класу PropertyChangeListener
+ */
 @Override
 public void addPropertyChangeListener (PropertyChangeListener listener)
     { getPropertyChangeSupport().addPropertyChangeListener(listener); }
 
 // ............................................................................
 
+/**
+ * Метод видаляє прослуховувач подій типу PropertyChangeListener
+ * @param listener об'єкт класу PropertyChangeListener
+ */
 @Override
 public void removePropertyChangeListener (PropertyChangeListener listener)
     { getPropertyChangeSupport().removePropertyChangeListener(listener); }
@@ -335,16 +435,28 @@ private PropertyChangeSupport getPropertyChangeSupport() {
 
 ///////////////////////////////////////////////////////////////////////////////
 
+/**
+ * Метод додає прослуховувач подій типу JDroppablePanelListener
+ * @param listener об'єкт класу JDroppablePanelListener
+ */
 public void addJDroppablePanelListener (JDroppablePanelListener listener)
     { getListenersArrayList().add(listener); }
 
 // ............................................................................
 
+/**
+ * Метод видаляє прослуховувач подій типу JDroppablePanelListener
+ * @param listener об'єкт класу JDroppablePanelListener
+ */
 public void removeJDroppablePanelListener (JDroppablePanelListener listener)
     { getListenersArrayList().remove(listener); }
 
 // ............................................................................
 
+/**
+ * Метод певертає масив прослуховувачів типу JDroppablePanelListener
+ * @return масив об'єктів класу JDroppablePanelListener
+ */
 public JDroppablePanelListener[] getJDroppablePanelListeners()
     { return getListenersArrayList().toArray(JDroppablePanelListener[]::new); }
 
@@ -356,16 +468,28 @@ private ArrayList <JDroppablePanelListener> getListenersArrayList()
 
 ///////////////////////////////////////////////////////////////////////////////
 
+/**
+ * Метод додає прослуховувач подій типу DropTargetListener
+ * @param listener об'єкт класу DropTargetListener
+ */
 public void addDropTargetListener (DropTargetListener listener)
     { getDaDListenersArrayList().add(listener); }
 
 // ............................................................................
 
+/**
+ * Метод видаляє прослуховувач подій типу DropTargetListener
+ * @param listener об'єкт класу DropTargetListener
+ */
 public void removeDropTargetListener (DropTargetListener listener)
     { getDaDListenersArrayList().remove(listener); }
 
 // ............................................................................
 
+/**
+ * Метод певертає масив прослуховувачів типу DropTargetListener
+ * @return масив об'єктів класу DropTargetListener
+ */
 public DropTargetListener[] getDaDListeners()
     { return getDaDListenersArrayList().toArray(DropTargetListener[]::new); }
 
