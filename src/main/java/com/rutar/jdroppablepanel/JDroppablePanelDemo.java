@@ -415,11 +415,11 @@ private JPanel panel_04;
 
 ///////////////////////////////////////////////////////////////////////////////
 
-private void printComponentChange (String eventText, JDroppablePanelEvent evt) {
-    System.out.println(eventText + " was changed" +
-                                   " from " + evt.getOldValue() +
-                                   " to "   + evt.getNewValue());
-}
+private void printComponentChange (String eventText,
+                                   JDroppablePanelEvent evt)
+    { System.out.println(eventText + " was changed" +
+                                     " from " + evt.getOldValue() +
+                                     " to "   + evt.getNewValue()); }
 
 ///////////////////////////////////////////////////////////////////////////////
 
