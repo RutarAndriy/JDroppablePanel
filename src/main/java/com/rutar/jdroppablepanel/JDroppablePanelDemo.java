@@ -291,9 +291,13 @@ private void onSliderChange (ChangeEvent evt) {
 Object source = evt.getSource();
 
 if (source.equals(slider_step))
-    { droppable_panel.setLineStep(slider_step.getValue()); }
+    { int value = slider_step.getValue();
+      droppable_panel.setLineStep(value);
+      slider_step.setToolTipText("Крок ліній: " + value); }
 if (source.equals(slider_indent))
-    { droppable_panel.setLineIndent(slider_indent.getValue()); }
+    { int value = slider_indent.getValue();
+      droppable_panel.setLineIndent(value);
+      slider_indent.setToolTipText("Відступ по краях елемента: " + value); }
 
 }
 
