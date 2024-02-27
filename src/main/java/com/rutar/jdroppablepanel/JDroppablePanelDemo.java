@@ -3,6 +3,7 @@ package com.rutar.jdroppablepanel;
 import java.io.*;
 import java.awt.*;
 import java.util.*;
+import java.beans.*;
 import javax.swing.*;
 import java.awt.dnd.*;
 import java.awt.event.*;
@@ -379,16 +380,11 @@ public static void main (String args[]) {
 
 private void initAppIcons() {
 
-String path;
-ImageIcon icon;
 ArrayList<Image> icons = new ArrayList<>();
+JDroppablePanelBeanInfo bean = new JDroppablePanelBeanInfo();
 
-for (String name : new String[]{ "16", "32" }) {
-    path = String.format("/com/rutar/jdroppablepanel/icons/"
-                       + "jdroppablepanel/icon_%s.png", name);
-    icon = new ImageIcon(getClass().getResource(path));
-    icons.add(icon.getImage());
-}
+icons.add(bean.getIcon(BeanInfo.ICON_COLOR_16x16));
+icons.add(bean.getIcon(BeanInfo.ICON_COLOR_32x32));
 
 setIconImages(icons);
 
