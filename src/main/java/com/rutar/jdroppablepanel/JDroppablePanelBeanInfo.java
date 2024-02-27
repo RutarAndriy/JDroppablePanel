@@ -212,7 +212,7 @@ return switch (iconType) {
 private Image loadIcon (boolean large) {
 
     Image image;
-    String res = "/com/rutar/jdroppablepanel/icons/jdroppablepanel/"
+    String res = "/com/rutar/jdroppablepanel/icons/"
                + "icon_" + (large ? "32" : "16") + ".png";
     
     try (InputStream stream = JDroppablePanelBeanInfo.class
