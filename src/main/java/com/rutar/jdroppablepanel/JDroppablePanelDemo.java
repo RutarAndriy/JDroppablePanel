@@ -1,8 +1,10 @@
 package com.rutar.jdroppablepanel;
 
+import java.io.*;
 import java.awt.*;
 import java.util.*;
 import javax.swing.*;
+import java.awt.dnd.*;
 import java.awt.event.*;
 import javax.swing.event.*;
 import javax.swing.border.*;
@@ -17,6 +19,8 @@ import javax.swing.border.*;
 
 public class JDroppablePanelDemo extends JFrame {
 
+private static JDroppablePanelDemo demo = null;
+
 ///////////////////////////////////////////////////////////////////////////////
 
 public JDroppablePanelDemo() {
@@ -26,6 +30,7 @@ initComponents();
 initAppIcons();
 
 droppable_panel.addJDroppablePanelListener(jdroppable_panel_listener);
+droppable_panel.addDropTargetListener(drop_target_listener);
 
 setLocationRelativeTo(null);
 
@@ -365,7 +370,8 @@ return String.format("Колір: 0x%06x", intColor);
 public static void main (String args[]) {
     
     EventQueue.invokeLater(() -> {
-        new JDroppablePanelDemo().setVisible(true);
+        demo = new JDroppablePanelDemo();
+        demo.setVisible(true);
     });
 }
 
@@ -475,6 +481,63 @@ private final JDroppablePanelListener jdroppable_panel_listener =
         { printComponentChange("lineIndent", evt); }
 
 };
+
+///////////////////////////////////////////////////////////////////////////////
+
+private final DropTargetAdapter drop_target_listener =
+          new DropTargetAdapter() {
+              
+    @Override
+    public void drop (DropTargetDropEvent evt) {
+        System.out.println("Drag Event");
+        File[] files = JDroppablePanelUtils.getDroppableFiles(evt);
+        String message = getDialogMessage(files);
+        JOptionPane.showMessageDialog(demo, message, "JDroppablePanel Demo",
+                                      JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    // ........................................................................
+    
+    @Override
+    public void dragEnter (DropTargetDragEvent evt) {
+        System.out.println("Drag Enter");
+    }
+
+    @Override
+    public void dragExit (DropTargetEvent evt) {
+        System.out.println("Drag Exit");
+    }
+
+    @Override
+    public void dragOver (DropTargetDragEvent evt) {
+        System.out.println("Drag Over");
+    }
+
+};
+
+///////////////////////////////////////////////////////////////////////////////
+
+private String getDialogMessage (File[] array) {
+    
+    if (array.length == 0) { return "Немає файлів для відображення"; }
+    
+    String files  = "";
+    String dirs   = "";
+    String result = "";
+    
+    for (File file : array) {
+        
+        if (file.isDirectory()) { dirs  += " • /" + file.getName() + "\n"; }
+        else                    { files += " • "  + file.getName() + "\n"; }
+        
+    }
+
+    if (!files.isBlank()) { result += "Файли:\n" + files; }
+    if (!dirs.isBlank())  { result += "Папки:\n" + dirs;  }
+    
+    return result;
+    
+}
 
 // Кінець класу JDroppablePanelDemo ///////////////////////////////////////////
 
