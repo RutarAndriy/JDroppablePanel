@@ -13,7 +13,7 @@
 `com.rutar.jdroppablepanel.JDroppablePanel`
 
 <details>
-  </a name="screenshots">
+  <a name="screenshots"/>
   <summary>Скріншоти</summary>
   <img title="Screenshot 1" src="/screenshot_1.png">
   <img title="Screenshot 2" src="/screenshot_2.png">
