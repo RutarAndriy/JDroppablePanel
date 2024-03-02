@@ -5,5 +5,16 @@
 [![Repo-Size](https://img.shields.io/github/repo-size/RutarAndriy/JDroppablePanel)](https://github.com/RutarAndriy/JDroppablePanel)
 
 Мій власний [JavaBeans](https://uk.wikipedia.org/wiki/JavaBeans)-компонент, який може обробляти [DaD](https://uk.wikipedia.org/wiki/Drag-and-drop) події
+- <a href="https://javadoc.jitpack.io/com/github/RutarAndriy/JDroppablePanel/latest/javadoc/">Документація</a>
+- <a href="#screenshots">Скріншоти</a>
+- [Документація](https://javadoc.jitpack.io/com/github/RutarAndriy/JDroppablePanel/latest/javadoc/)
+- [Скріншоти](#screenshots)
 
 `com.rutar.jdroppablepanel.JDroppablePanel`
+
+<details>
+  </a name="screenshots">
+  <summary>Скріншоти</summary>
+  <img title="Screenshot 1" src="/screenshot_1.png">
+  <img title="Screenshot 2" src="/screenshot_2.png">
+</details>
