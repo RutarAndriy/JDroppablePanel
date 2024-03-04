@@ -20,6 +20,7 @@ public class JDroppablePanelUtils {
  * @param event подія типу DropTargetDropEvent
  * @return список файлів, які були перетягнуті на панель
  */
+@SuppressWarnings("unchecked")
 public static File[] getDroppableFiles (DropTargetDropEvent event) {
 
 File[] files = null;
