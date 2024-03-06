@@ -8,7 +8,16 @@
 - [Документація](https://javadoc.jitpack.io/com/github/RutarAndriy/JDroppablePanel/latest/javadoc/)
 - [Скріншоти](#screenshots)
 
+Додавання компонента в NetBeans GUI Builder
+- Додаємо [залежність](https://jitpack.io/#RutarAndriy/JDroppablePanel/latest) у свій проект
+- Додаємо форму / діалогове вікно \
+`New` > `Other` > `Swing GUI Forms` > `JFrame / JDialog`
+- Додаємо власний JavaBeans-компонент \
+`Pallete` > `Beans` > `Choose Bean`
+- У полі 'Class Name' вводимо наступний клас: \
 `com.rutar.jdroppablepanel.JDroppablePanel`
+- Перетягуємо компонент на форму / діалогове вікно
+- Налаштовуємо властивості компонента через меню 'Properties'
 
 
 <details name="screenshots">
